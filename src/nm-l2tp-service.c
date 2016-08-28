@@ -201,7 +201,8 @@ validate_ipsec_id (const char *id)
 	/* Ensure it's a valid id-name */
 	p = id;
 	while (*p) {
-		if (!isalnum (*p) && (*p != '_') && (*p != '-') && (*p != '.'))
+//		if (!isalnum (*p) && (*p != '_') && (*p != '-') && (*p != '.'))
+		if (!isalnum (*p) && (*p != '_') && (*p != '-') && (*p != '.') && (*p != ',') && (*p != '=') && (*p != ' ') && (*p != '@'))
 			return FALSE;
 		p++;
 	}
@@ -785,7 +786,7 @@ nm_l2tp_config_write (NML2tpPlugin *plugin,
 	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_MTU);
 	if (value) write_config_option (pppopt_fd, "mtu %s\n", value);
 
-	/*	
+	/*
 	if (priv && priv->use_cert) {
 		write_config_option (pppopt_fd, "cert \"%s\"\n", nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_CERT_PUB));
 		write_config_option (pppopt_fd, "ca \"%s\"\n", nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_CERT_CA));
