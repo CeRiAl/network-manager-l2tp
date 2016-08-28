@@ -96,39 +96,42 @@ typedef struct {
 } ValidProperty;
 
 static ValidProperty valid_properties[] = {
-	{ NM_L2TP_KEY_GATEWAY,           G_TYPE_STRING, TRUE },
-	{ NM_L2TP_KEY_USER,              G_TYPE_STRING, FALSE },
-	{ NM_L2TP_KEY_USE_CERT,          G_TYPE_BOOLEAN, FALSE },
-	{ NM_L2TP_KEY_CERT_PUB,          G_TYPE_STRING, FALSE },
-	{ NM_L2TP_KEY_CERT_CA,           G_TYPE_STRING, FALSE },
-	{ NM_L2TP_KEY_CERT_KEY,          G_TYPE_STRING, FALSE },
-	{ NM_L2TP_KEY_DOMAIN,            G_TYPE_STRING, FALSE },
-	{ NM_L2TP_KEY_MRU,               G_TYPE_UINT, FALSE },
-	{ NM_L2TP_KEY_MTU,               G_TYPE_UINT, FALSE },
-	{ NM_L2TP_KEY_REFUSE_EAP,        G_TYPE_BOOLEAN, FALSE },
-	{ NM_L2TP_KEY_REFUSE_PAP,        G_TYPE_BOOLEAN, FALSE },
-	{ NM_L2TP_KEY_REFUSE_CHAP,       G_TYPE_BOOLEAN, FALSE },
-	{ NM_L2TP_KEY_REFUSE_MSCHAP,     G_TYPE_BOOLEAN, FALSE },
-	{ NM_L2TP_KEY_REFUSE_MSCHAPV2,   G_TYPE_BOOLEAN, FALSE },
-	{ NM_L2TP_KEY_REQUIRE_MPPE,      G_TYPE_BOOLEAN, FALSE },
-	{ NM_L2TP_KEY_REQUIRE_MPPE_40,   G_TYPE_BOOLEAN, FALSE },
-	{ NM_L2TP_KEY_REQUIRE_MPPE_128,  G_TYPE_BOOLEAN, FALSE },
-	{ NM_L2TP_KEY_MPPE_STATEFUL,     G_TYPE_BOOLEAN, FALSE },
-	{ NM_L2TP_KEY_NOBSDCOMP,         G_TYPE_BOOLEAN, FALSE },
-	{ NM_L2TP_KEY_NODEFLATE,         G_TYPE_BOOLEAN, FALSE },
-	{ NM_L2TP_KEY_NO_VJ_COMP,        G_TYPE_BOOLEAN, FALSE },
-	{ NM_L2TP_KEY_NO_PCOMP,          G_TYPE_BOOLEAN, FALSE },
-	{ NM_L2TP_KEY_NO_ACCOMP,         G_TYPE_BOOLEAN, FALSE },
-	{ NM_L2TP_KEY_LCP_ECHO_FAILURE,  G_TYPE_UINT, FALSE },
-	{ NM_L2TP_KEY_LCP_ECHO_INTERVAL, G_TYPE_UINT, FALSE },
-	{ NM_L2TP_KEY_UNIT_NUM,          G_TYPE_UINT, FALSE },
-	{ NM_L2TP_KEY_PASSWORD"-flags",  G_TYPE_UINT, FALSE },
-	{ NM_L2TP_KEY_IPSEC_ENABLE,      G_TYPE_BOOLEAN, FALSE },
-	{ NM_L2TP_KEY_IPSEC_GATEWAY_ID,  G_TYPE_STRING, FALSE },
-	{ NM_L2TP_KEY_IPSEC_GROUP_NAME,  G_TYPE_STRING, FALSE },
-	{ NM_L2TP_KEY_IPSEC_PSK,         G_TYPE_STRING, FALSE },
-	{ NM_L2TP_KEY_IPSEC_PFS,         G_TYPE_BOOLEAN, FALSE },
-	{ NULL,                          G_TYPE_NONE,   FALSE }
+	{ NM_L2TP_KEY_GATEWAY,              G_TYPE_STRING, TRUE },
+	{ NM_L2TP_KEY_USER,                 G_TYPE_STRING, FALSE },
+	{ NM_L2TP_KEY_USE_CERT,             G_TYPE_BOOLEAN, FALSE },
+	{ NM_L2TP_KEY_CERT_PUB,             G_TYPE_STRING, FALSE },
+	{ NM_L2TP_KEY_CERT_CA,              G_TYPE_STRING, FALSE },
+	{ NM_L2TP_KEY_CERT_KEY,             G_TYPE_STRING, FALSE },
+	{ NM_L2TP_KEY_DOMAIN,               G_TYPE_STRING, FALSE },
+	{ NM_L2TP_KEY_MRU,                  G_TYPE_UINT, FALSE },
+	{ NM_L2TP_KEY_MTU,                  G_TYPE_UINT, FALSE },
+	{ NM_L2TP_KEY_REFUSE_EAP,           G_TYPE_BOOLEAN, FALSE },
+	{ NM_L2TP_KEY_REFUSE_PAP,           G_TYPE_BOOLEAN, FALSE },
+	{ NM_L2TP_KEY_REFUSE_CHAP,          G_TYPE_BOOLEAN, FALSE },
+	{ NM_L2TP_KEY_REFUSE_MSCHAP,        G_TYPE_BOOLEAN, FALSE },
+	{ NM_L2TP_KEY_REFUSE_MSCHAPV2,      G_TYPE_BOOLEAN, FALSE },
+	{ NM_L2TP_KEY_REQUIRE_MPPE,         G_TYPE_BOOLEAN, FALSE },
+	{ NM_L2TP_KEY_REQUIRE_MPPE_40,      G_TYPE_BOOLEAN, FALSE },
+	{ NM_L2TP_KEY_REQUIRE_MPPE_128,     G_TYPE_BOOLEAN, FALSE },
+	{ NM_L2TP_KEY_MPPE_STATEFUL,        G_TYPE_BOOLEAN, FALSE },
+	{ NM_L2TP_KEY_NOBSDCOMP,            G_TYPE_BOOLEAN, FALSE },
+	{ NM_L2TP_KEY_NODEFLATE,            G_TYPE_BOOLEAN, FALSE },
+	{ NM_L2TP_KEY_NO_VJ_COMP,           G_TYPE_BOOLEAN, FALSE },
+	{ NM_L2TP_KEY_NO_PCOMP,             G_TYPE_BOOLEAN, FALSE },
+	{ NM_L2TP_KEY_NO_ACCOMP,            G_TYPE_BOOLEAN, FALSE },
+	{ NM_L2TP_KEY_LCP_ECHO_FAILURE,     G_TYPE_UINT, FALSE },
+	{ NM_L2TP_KEY_LCP_ECHO_INTERVAL,    G_TYPE_UINT, FALSE },
+	{ NM_L2TP_KEY_UNIT_NUM,             G_TYPE_UINT, FALSE },
+	{ NM_L2TP_KEY_PASSWORD"-flags",     G_TYPE_UINT, FALSE },
+	{ NM_L2TP_KEY_IPSEC_ENABLE,         G_TYPE_BOOLEAN, FALSE },
+	{ NM_L2TP_KEY_IPSEC_GATEWAY_ID,     G_TYPE_STRING, FALSE },
+	{ NM_L2TP_KEY_IPSEC_GROUP_NAME,     G_TYPE_STRING, FALSE },
+	{ NM_L2TP_KEY_IPSEC_PSK,            G_TYPE_STRING, FALSE },
+	{ NM_L2TP_KEY_IPSEC_RSA_CERT,       G_TYPE_STRING, FALSE },
+	{ NM_L2TP_KEY_IPSEC_RSA_KEY,        G_TYPE_STRING, FALSE },
+	{ NM_L2TP_KEY_IPSEC_RSA_PASSPHRASE, G_TYPE_STRING, FALSE },
+	{ NM_L2TP_KEY_IPSEC_PFS,            G_TYPE_BOOLEAN, FALSE },
+	{ NULL,                             G_TYPE_NONE,   FALSE }
 };
 
 static ValidProperty valid_secrets[] = {
@@ -201,7 +204,6 @@ validate_ipsec_id (const char *id)
 	/* Ensure it's a valid id-name */
 	p = id;
 	while (*p) {
-//		if (!isalnum (*p) && (*p != '_') && (*p != '-') && (*p != '.'))
 		if (!isalnum (*p) && (*p != '_') && (*p != '-') && (*p != '.') && (*p != ',') && (*p != '=') && (*p != ' ') && (*p != '@'))
 			return FALSE;
 		p++;
@@ -240,6 +242,9 @@ validate_one_property (const char *key, const char *value, gpointer user_data)
 		switch (prop.type) {
 		case G_TYPE_STRING:
 			if (!strcmp (prop.name, NM_L2TP_KEY_IPSEC_PSK) ||
+			    !strcmp (prop.name, NM_L2TP_KEY_IPSEC_RSA_CERT)  ||
+			    !strcmp (prop.name, NM_L2TP_KEY_IPSEC_RSA_KEY)  ||
+			    !strcmp (prop.name, NM_L2TP_KEY_IPSEC_RSA_PASSPHRASE)  ||
 			    !strcmp (prop.name, NM_L2TP_KEY_CERT_PUB)  ||
 			    !strcmp (prop.name, NM_L2TP_KEY_CERT_CA)  ||
 			    !strcmp (prop.name, NM_L2TP_KEY_CERT_KEY))
@@ -632,17 +637,30 @@ nm_l2tp_config_write (NML2tpPlugin *plugin,
 		return nm_l2tp_ipsec_error(error, "Could not write ipsec config.");
 	}
 
+	write_config_option (ipsec_fd,		"version 2.0\n\n");
+	write_config_option (ipsec_fd,		"config setup\n"
+										"  strictcrlpolicy=no\n\n");
+	write_config_option (ipsec_fd,		"conn %%default\n"
+										"  rekey=yes\n\n");
+
 	write_config_option (ipsec_fd, 		"conn nm-ipsec-l2tp-%d\n", pid);
 	write_config_option (ipsec_fd, 		"  auto=add\n"
-						"  type=transport\n");
+										"  type=transport\n");
 
-	write_config_option (ipsec_fd, 		"  authby=secret\n"
-						"  keyingtries=0\n"
-						"  left=%%defaultroute\n"
-						"  leftprotoport=udp/l2tp\n"
-						"  rightprotoport=udp/l2tp\n");
+	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_RSA_CERT);
+	if (value) {
+		write_config_option (ipsec_fd, 	"  authby=rsasig\n");
+	} else {
+		write_config_option (ipsec_fd, 	"  authby=secret\n");
+	}
+	write_config_option (ipsec_fd, 		"  keyingtries=3\n"
+										"  left=%%defaultroute\n"
+										"  leftprotoport=udp/l2tp\n"
+										"  rightprotoport=udp/l2tp\n");
 	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_GROUP_NAME);
 	if(value)write_config_option (ipsec_fd, "  leftid=@%s\n", value);
+	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_RSA_CERT);
+	if(value) write_config_option (ipsec_fd, "  leftcert=\"%s\"\n", value);
 	/* value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_GATEWAY); */
 	write_config_option (ipsec_fd, "  right=%s\n", priv->saddr);
 	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_GATEWAY_ID);
@@ -651,7 +669,8 @@ nm_l2tp_config_write (NML2tpPlugin *plugin,
 
 	if (!priv->is_libreswan) {
 		write_config_option (ipsec_fd, "  esp=aes128-sha1,3des-sha1\n");
-		write_config_option (ipsec_fd, "  ike=aes128-sha1-modp2048,3des-sha1-modp1536,3des-sha1-modp1024\n");
+//		write_config_option (ipsec_fd, "  ike=aes128-sha1-modp2048,3des-sha1-modp1536,3des-sha1-modp1024\n");
+		write_config_option (ipsec_fd, "  ike=aes128-sha1-modp1024,3des-sha1-modp1024\n");
 		write_config_option (ipsec_fd, "  keyexchange=ikev1\n");
 	}
 	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_PFS);
@@ -919,14 +938,30 @@ nm_l2tp_start_ipsec(NML2tpPlugin *plugin,
 		return nm_l2tp_ipsec_error(error, "Could not write /etc/ipsec.secrets file.");
 	}
 	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_GROUP_NAME);
-	fprintf(fp, "%s%s ",value?"@":"", value?value:"%any");
+	if(value) {
+		fprintf(fp, "%s%s ",value?"@":"", value?value:"%any");
+	}
 
 	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_GATEWAY_ID);
-	fprintf(fp, "%s%s ",value?"@":"", value?value:"%any");
+	if(value) {
+		fprintf(fp, "%s%s ",value?"@":"", value?value:"%any");
+	}
 
 	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_PSK);
-	if(!value)value="";
-	fprintf(fp, ": PSK \"%s\"\n",value);
+	if(value) {
+		fprintf(fp, ": PSK \"%s\"\n",value);
+	}
+
+	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_RSA_CERT);
+	if(value) {
+		value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_RSA_KEY);
+		fprintf(fp, " : RSA \"%s\"",value);
+		value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_RSA_PASSPHRASE);
+		if(value) {
+			fprintf(fp, " \"%s\"",value);
+		}
+		fprintf(fp, "\n");
+	}
 	fclose(fp);
 	close(fd);
 

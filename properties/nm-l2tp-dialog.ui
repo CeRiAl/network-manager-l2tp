@@ -117,6 +117,42 @@
               </packing>
             </child>
             <child>
+              <object class="GtkLabel" id="label_rsa_cert">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Public RSA cert:</property>
+                <property name="justify">right</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_rsa_key">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Private RSA key:</property>
+                <property name="justify">right</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_rsa_passphrase">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">RSA key passphrase:</property>
+                <property name="justify">right</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">5</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkEntry" id="ipsec_group_name">
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
@@ -165,6 +201,52 @@
               </packing>
             </child>
             <child>
+              <object class="GtkEntry" id="ipsec_rsa_cert">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="margin_top">1</property>
+                <property name="margin_bottom">1</property>
+                <property name="hexpand">True</property>
+                <property name="primary_icon_activatable">False</property>
+                <property name="secondary_icon_activatable">False</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="ipsec_rsa_key">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="margin_top">1</property>
+                <property name="margin_bottom">1</property>
+                <property name="hexpand">True</property>
+                <property name="primary_icon_activatable">False</property>
+                <property name="secondary_icon_activatable">False</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="ipsec_rsa_passphrase">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="margin_top">1</property>
+                <property name="margin_bottom">1</property>
+                <property name="hexpand">True</property>
+                <property name="visibility">False</property>
+                <property name="primary_icon_activatable">False</property>
+                <property name="secondary_icon_activatable">False</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">5</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkCheckButton" id="pfs_enable">
                 <property name="label" translatable="yes">_Perfect Forward Secrecy</property>
                 <property name="visible">True</property>
@@ -177,7 +259,7 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">3</property>
+                <property name="top_attach">6</property>
                 <property name="width">2</property>
               </packing>
             </child>

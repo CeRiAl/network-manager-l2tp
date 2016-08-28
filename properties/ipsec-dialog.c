@@ -53,6 +53,9 @@ static const char *ipsec_keys[] = {
 	NM_L2TP_KEY_IPSEC_GROUP_NAME,
 	NM_L2TP_KEY_IPSEC_GATEWAY_ID,
 	NM_L2TP_KEY_IPSEC_PSK,
+	NM_L2TP_KEY_IPSEC_RSA_CERT,
+	NM_L2TP_KEY_IPSEC_RSA_KEY,
+	NM_L2TP_KEY_IPSEC_RSA_PASSPHRASE,
 	NM_L2TP_KEY_IPSEC_PFS,
 	NULL
 };
@@ -96,6 +99,24 @@ handle_enable_changed (GtkWidget *check, gboolean is_init, GtkBuilder *builder)
 	gtk_widget_set_sensitive (widget, enabledp);
 
 	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_psk"));
+	gtk_widget_set_sensitive (widget, enabledp);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, "label_rsa_cert"));
+	gtk_widget_set_sensitive (widget, enabledp);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_rsa_cert"));
+	gtk_widget_set_sensitive (widget, enabledp);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, "label_rsa_key"));
+	gtk_widget_set_sensitive (widget, enabledp);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_rsa_key"));
+	gtk_widget_set_sensitive (widget, enabledp);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, "label_rsa_passphrase"));
+	gtk_widget_set_sensitive (widget, enabledp);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_rsa_passphrase"));
 	gtk_widget_set_sensitive (widget, enabledp);
 
 	widget = GTK_WIDGET (gtk_builder_get_object (builder, "label_gateway_id"));
@@ -179,6 +200,18 @@ ipsec_dialog_new (GHashTable *hash)
 	if((value = g_hash_table_lookup (hash, NM_L2TP_KEY_IPSEC_PSK)))
 		gtk_entry_set_text(GTK_ENTRY(widget), value);
 
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_rsa_cert"));
+	if((value = g_hash_table_lookup (hash, NM_L2TP_KEY_IPSEC_RSA_CERT)))
+		gtk_entry_set_text(GTK_ENTRY(widget), value);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_rsa_key"));
+	if((value = g_hash_table_lookup (hash, NM_L2TP_KEY_IPSEC_RSA_KEY)))
+		gtk_entry_set_text(GTK_ENTRY(widget), value);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_rsa_passphrase"));
+	if((value = g_hash_table_lookup (hash, NM_L2TP_KEY_IPSEC_RSA_PASSPHRASE)))
+		gtk_entry_set_text(GTK_ENTRY(widget), value);
+
 	widget = GTK_WIDGET (gtk_builder_get_object (builder,"ipsec_enable"));
 	handle_enable_changed (widget, TRUE, builder);
 	g_signal_connect (G_OBJECT (widget), "toggled", G_CALLBACK (enable_toggled_cb), builder);
@@ -223,6 +256,18 @@ ipsec_dialog_new_hash_from_dialog (GtkWidget *dialog, GError **error)
 
 	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_psk"));
 	g_hash_table_insert(hash, g_strdup(NM_L2TP_KEY_IPSEC_PSK),
+			g_strdup(gtk_entry_get_text(GTK_ENTRY(widget))));
+
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_rsa_cert"));
+	g_hash_table_insert(hash, g_strdup(NM_L2TP_KEY_IPSEC_RSA_CERT),
+			g_strdup(gtk_entry_get_text(GTK_ENTRY(widget))));
+
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_rsa_key"));
+	g_hash_table_insert(hash, g_strdup(NM_L2TP_KEY_IPSEC_RSA_KEY),
+			g_strdup(gtk_entry_get_text(GTK_ENTRY(widget))));
+
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_rsa_passphrase"));
+	g_hash_table_insert(hash, g_strdup(NM_L2TP_KEY_IPSEC_RSA_PASSPHRASE),
 			g_strdup(gtk_entry_get_text(GTK_ENTRY(widget))));
 
 	return hash;

@@ -61,10 +61,13 @@
 #define NM_L2TP_KEY_LCP_ECHO_INTERVAL "lcp-echo-interval"
 #define NM_L2TP_KEY_UNIT_NUM          "unit"
 
-#define NM_L2TP_KEY_IPSEC_ENABLE      "ipsec-enabled"
-#define NM_L2TP_KEY_IPSEC_GATEWAY_ID  "ipsec-gateway-id"
-#define NM_L2TP_KEY_IPSEC_GROUP_NAME  "ipsec-group-name"
-#define NM_L2TP_KEY_IPSEC_PSK         "ipsec-psk"
-#define NM_L2TP_KEY_IPSEC_PFS         "ipsec-pfs-enabled"
+#define NM_L2TP_KEY_IPSEC_ENABLE         "ipsec-enabled"
+#define NM_L2TP_KEY_IPSEC_GATEWAY_ID     "ipsec-gateway-id"
+#define NM_L2TP_KEY_IPSEC_GROUP_NAME     "ipsec-group-name"
+#define NM_L2TP_KEY_IPSEC_PSK            "ipsec-psk"
+#define NM_L2TP_KEY_IPSEC_RSA_CERT       "ipsec-rsa-cert"
+#define NM_L2TP_KEY_IPSEC_RSA_KEY        "ipsec-rsa-key"
+#define NM_L2TP_KEY_IPSEC_RSA_PASSPHRASE "ipsec-rsa-passphrase"
+#define NM_L2TP_KEY_IPSEC_PFS            "ipsec-pfs-enabled"
 
 #endif /* NM_L2TP_SERVICE_DEFINES_H */
