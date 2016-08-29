@@ -64,6 +64,7 @@
 #define NM_L2TP_KEY_IPSEC_ENABLE         "ipsec-enabled"
 #define NM_L2TP_KEY_IPSEC_GATEWAY_ID     "ipsec-gateway-id"
 #define NM_L2TP_KEY_IPSEC_GROUP_NAME     "ipsec-group-name"
+#define NM_L2TP_KEY_IPSEC_AUTH_TYPE      "ipsec-auth-type"
 #define NM_L2TP_KEY_IPSEC_PSK            "ipsec-psk"
 #define NM_L2TP_KEY_IPSEC_RSA_CERT       "ipsec-rsa-cert"
 #define NM_L2TP_KEY_IPSEC_RSA_KEY        "ipsec-rsa-key"

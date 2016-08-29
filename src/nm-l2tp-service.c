@@ -126,6 +126,7 @@ static ValidProperty valid_properties[] = {
 	{ NM_L2TP_KEY_IPSEC_ENABLE,         G_TYPE_BOOLEAN, FALSE },
 	{ NM_L2TP_KEY_IPSEC_GATEWAY_ID,     G_TYPE_STRING, FALSE },
 	{ NM_L2TP_KEY_IPSEC_GROUP_NAME,     G_TYPE_STRING, FALSE },
+	{ NM_L2TP_KEY_IPSEC_AUTH_TYPE,      G_TYPE_STRING, FALSE },
 	{ NM_L2TP_KEY_IPSEC_PSK,            G_TYPE_STRING, FALSE },
 	{ NM_L2TP_KEY_IPSEC_RSA_CERT,       G_TYPE_STRING, FALSE },
 	{ NM_L2TP_KEY_IPSEC_RSA_KEY,        G_TYPE_STRING, FALSE },
@@ -647,11 +648,14 @@ nm_l2tp_config_write (NML2tpPlugin *plugin,
 	write_config_option (ipsec_fd, 		"  auto=add\n"
 										"  type=transport\n");
 
-	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_RSA_CERT);
-	if (value) {
-		write_config_option (ipsec_fd, 	"  authby=rsasig\n");
-	} else {
+	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_AUTH_TYPE);
+	if (value && !strcmp (value, "psk")) {
 		write_config_option (ipsec_fd, 	"  authby=secret\n");
+	}
+	if (value && !strcmp (value, "rsa")) {
+		write_config_option (ipsec_fd, 	"  authby=rsasig\n");
+		value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_RSA_CERT);
+		if(value) write_config_option (ipsec_fd, "  leftcert=\"%s\"\n", value);
 	}
 	write_config_option (ipsec_fd, 		"  keyingtries=3\n"
 										"  left=%%defaultroute\n"
@@ -659,8 +663,6 @@ nm_l2tp_config_write (NML2tpPlugin *plugin,
 										"  rightprotoport=udp/l2tp\n");
 	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_GROUP_NAME);
 	if(value)write_config_option (ipsec_fd, "  leftid=@%s\n", value);
-	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_RSA_CERT);
-	if(value) write_config_option (ipsec_fd, "  leftcert=\"%s\"\n", value);
 	/* value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_GATEWAY); */
 	write_config_option (ipsec_fd, "  right=%s\n", priv->saddr);
 	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_GATEWAY_ID);
@@ -947,13 +949,15 @@ nm_l2tp_start_ipsec(NML2tpPlugin *plugin,
 		fprintf(fp, "%s%s ",value?"@":"", value?value:"%any");
 	}
 
-	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_PSK);
-	if(value) {
+	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_AUTH_TYPE);
+	if(value && !strcmp (value, "psk")) {
+		value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_PSK);
+		if(!value)value="";
 		fprintf(fp, ": PSK \"%s\"\n",value);
 	}
 
-	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_RSA_CERT);
-	if(value) {
+	value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_AUTH_TYPE);
+	if(value && !strcmp (value, "rsa")) {
 		value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_RSA_KEY);
 		fprintf(fp, " : RSA \"%s\"",value);
 		value = nm_setting_vpn_get_data_item (s_vpn, NM_L2TP_KEY_IPSEC_RSA_PASSPHRASE);

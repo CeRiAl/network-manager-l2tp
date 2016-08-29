@@ -52,6 +52,7 @@ static const char *ipsec_keys[] = {
 	NM_L2TP_KEY_IPSEC_ENABLE,
 	NM_L2TP_KEY_IPSEC_GROUP_NAME,
 	NM_L2TP_KEY_IPSEC_GATEWAY_ID,
+	NM_L2TP_KEY_IPSEC_AUTH_TYPE,
 	NM_L2TP_KEY_IPSEC_PSK,
 	NM_L2TP_KEY_IPSEC_RSA_CERT,
 	NM_L2TP_KEY_IPSEC_RSA_KEY,
@@ -87,6 +88,33 @@ ipsec_dialog_new_hash_from_connection (NMConnection *connection,
 	return hash;
 }
 
+#define IPSEC_AUTH_PSK  0
+#define IPSEC_AUTH_RSA  1
+
+static void
+handle_auth_changed (GtkWidget *combo, gboolean is_init, GtkBuilder *builder)
+{
+	GtkWidget *widget;
+
+	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (combo))) {
+	default:
+	case IPSEC_AUTH_PSK:
+		widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_psk_settings"));
+		gtk_widget_set_sensitive (widget, TRUE);
+
+		widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_rsa_settings"));
+		gtk_widget_set_sensitive (widget, FALSE);
+		break;
+	case IPSEC_AUTH_RSA:
+		widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_rsa_settings"));
+		gtk_widget_set_sensitive (widget, TRUE);
+
+		widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_psk_settings"));
+		gtk_widget_set_sensitive (widget, FALSE);
+		break;
+	}
+}
+
 static void
 handle_enable_changed (GtkWidget *check, gboolean is_init, GtkBuilder *builder)
 {
@@ -94,6 +122,12 @@ handle_enable_changed (GtkWidget *check, gboolean is_init, GtkBuilder *builder)
 	gboolean enabledp;
 
 	enabledp = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
+
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, "label_auth_type_combo"));
+	gtk_widget_set_sensitive (widget, enabledp);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_auth_type_combo"));
+	gtk_widget_set_sensitive (widget, enabledp);
 
 	widget = GTK_WIDGET (gtk_builder_get_object (builder, "label_psk"));
 	gtk_widget_set_sensitive (widget, enabledp);
@@ -133,6 +167,69 @@ handle_enable_changed (GtkWidget *check, gboolean is_init, GtkBuilder *builder)
 
 	widget = GTK_WIDGET (gtk_builder_get_object (builder, "pfs_enable"));
 	gtk_widget_set_sensitive (widget, enabledp);
+}
+
+static void
+setup_auth_type_combo (GtkBuilder *builder, GHashTable *hash)
+{
+	GtkWidget *widget;
+	GtkListStore *store;
+	GtkTreeIter iter;
+	int active = -1;
+	const char *value;
+
+	g_return_if_fail (builder != NULL);
+	g_return_if_fail (hash != NULL);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_auth_type_combo"));
+
+	store = gtk_list_store_new (1, G_TYPE_STRING);
+
+	/* PSK */
+	gtk_list_store_append (store, &iter);
+	gtk_list_store_set (store, &iter, 0, _("Pre-shared key"), -1);
+	if (active < 0) {
+		value = g_hash_table_lookup (hash, NM_L2TP_KEY_IPSEC_AUTH_TYPE);
+		if (value && !strcmp (value, "psk"))
+			active = IPSEC_AUTH_PSK;
+	}
+
+	/* RSA */
+	gtk_list_store_append (store, &iter);
+	gtk_list_store_set (store, &iter, 0, _("RSA authentication"), -1);
+	if (active < 0) {
+		value = g_hash_table_lookup (hash, NM_L2TP_KEY_IPSEC_AUTH_TYPE);
+		if (value && !strcmp (value, "rsa"))
+			active = IPSEC_AUTH_RSA;
+	}
+
+	gtk_combo_box_set_model (GTK_COMBO_BOX (widget), GTK_TREE_MODEL (store));
+	g_object_unref (store);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (widget), active < 0 ? IPSEC_AUTH_PSK : active);
+
+	switch (active) {
+	default:
+	case IPSEC_AUTH_PSK:
+		widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_psk_settings"));
+		gtk_widget_set_sensitive (widget, TRUE);
+
+		widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_rsa_settings"));
+		gtk_widget_set_sensitive (widget, FALSE);
+		break;
+	case IPSEC_AUTH_RSA:
+		widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_rsa_settings"));
+		gtk_widget_set_sensitive (widget, TRUE);
+
+		widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_psk_settings"));
+		gtk_widget_set_sensitive (widget, FALSE);
+		break;
+	}
+}
+
+static void
+auth_toggled_cb (GtkWidget *combo, gpointer user_data)
+{
+	handle_auth_changed (combo, FALSE, (GtkBuilder *) user_data);
 }
 
 static void
@@ -176,6 +273,8 @@ ipsec_dialog_new (GHashTable *hash)
 	g_object_set_data_full (G_OBJECT (dialog), "gtkbuilder-xml",
 			builder, (GDestroyNotify) g_object_unref);
 
+	setup_auth_type_combo (builder, hash);
+
 	value = g_hash_table_lookup (hash, NM_L2TP_KEY_IPSEC_ENABLE);
 	if (value && !strcmp (value, "yes")) {
 		widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_enable"));
@@ -211,6 +310,10 @@ ipsec_dialog_new (GHashTable *hash)
 	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_rsa_passphrase"));
 	if((value = g_hash_table_lookup (hash, NM_L2TP_KEY_IPSEC_RSA_PASSPHRASE)))
 		gtk_entry_set_text(GTK_ENTRY(widget), value);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (builder,"ipsec_auth_type_combo"));
+	handle_auth_changed (widget, TRUE, builder);
+	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (auth_toggled_cb), builder);
 
 	widget = GTK_WIDGET (gtk_builder_get_object (builder,"ipsec_enable"));
 	handle_enable_changed (widget, TRUE, builder);
@@ -253,6 +356,17 @@ ipsec_dialog_new_hash_from_dialog (GtkWidget *dialog, GError **error)
 	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_group_name"));
 	g_hash_table_insert(hash, g_strdup(NM_L2TP_KEY_IPSEC_GROUP_NAME),
 			g_strdup(gtk_entry_get_text(GTK_ENTRY(widget))));
+
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_auth_type_combo"));
+	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (widget))) {
+	default:
+	case IPSEC_AUTH_PSK:
+		g_hash_table_insert (hash, g_strdup (NM_L2TP_KEY_IPSEC_AUTH_TYPE), g_strdup ("psk"));
+		break;
+	case IPSEC_AUTH_RSA:
+		g_hash_table_insert (hash, g_strdup (NM_L2TP_KEY_IPSEC_AUTH_TYPE), g_strdup ("rsa"));
+		break;
+	}
 
 	widget = GTK_WIDGET (gtk_builder_get_object (builder, "ipsec_psk"));
 	g_hash_table_insert(hash, g_strdup(NM_L2TP_KEY_IPSEC_PSK),
